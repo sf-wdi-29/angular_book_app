@@ -4,30 +4,35 @@ Built on the top of the `$http` service, Angular’s `$resource` is a service th
 
 ## Installation
 1. Clone this repo and run 'bower install'
-1. The `$resource` service doesn’t come bundled with the main Angular script. Add it to your `index.html` file.
+1. The `$resource` service doesn’t come bundled with the main Angular script. Run `bower install angular-resource`. 
+1. Add it to your index.html
 ```html
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.min.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
 ```
-
 1. Now you need to load the `$resource` module into your application.
 ```js
-angular.module('app', ['ngResource']);
+angular.module('app', [..., 'ngResource']);
 ```
+1. In the application directory run python -m SimpleHTTPServer 8000.
 
 ## Interacting with the API
-1. To use `$resource` inside your controller/service you need to declare a dependency on `$resource`. The next step is calling the `$resource()` function with your REST endpoint, as shown in the following example. This function call returns a `$resource` class representation which can be used to interact with the REST backend. Create a `services.js` file and put your new `$resource` service in it.
+1. To use `$resource` inside your controller/service you need to declare a dependency on `$resource`. The next step is calling the `$resource()` function with your REST endpoint, as shown in the following example. This function call returns a `$resource` class representation which can be used to interact with the REST backend. 
+
+1. Create a `services.js` file and put your new `$resource` service in it.
 
   ```js
-  angular.module('myApp').service('Book', function($resource) {
+  angular.module('bookApp').service('Book', function($resource) {
     return $resource('http://daretodiscover.herokuapp.com/books/:id');
   });
   ```
 
-1. The result of the function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
+1. Add a script tag in your index.html linking to `services.js` after your `app.js` script tag.
 
-1. Let’s see how we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
+1. The result of this function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
+
+1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
   ```js
-  angular.module('myApp').controller('ResourceController',function($scope, Book) {
+  app.controller('ResourceController',function($scope, Book) {
       $scope.book = Book.get({ id: 200 }, function(data) {
         console.log(data);
       }); // get() returns a single book
@@ -56,7 +61,7 @@ angular.module('app', ['ngResource']);
 
 1. We have explored the create, read and delete parts of CRUD. The only thing left is update. To support an update operation we need to modify our custom factory `Book` as shown below.
   ```js
-  angular.module('myApp').factory('Book', function($resource) {
+  angular.module('bookApp').factory('Book', function($resource) {m
     return $resource('http://daretodiscover.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
@@ -77,16 +82,14 @@ angular.module('app', ['ngResource']);
 
 We're going to build a CRUD app like the `$http` one we built yesterday but using `$resource`.
 
-1. Display all the books with all their attributes including the photo.  
-1. Create a form to add a new book. Make it work!  
-1. Add an edit button next to each book. Make it work!  
+1. Display all the books with all their attributes including the photo.
+1. Create a form to add a new book. Make it work!
+1. Add an edit button next to each book. Make it work!
 1. Add a delete button next to each book. Make it work!
 
 ## Stretch Challenges
 Link the `name` of each book to a view that shows only the details for that book. **Hints:**
 
-* Use `ngRoute` and `ng-view` to set up multiple views in your Angular app.  
-* Use `$routeParams` to figure out which book to display.  
-* Your view for a single book will have a different controller than your view that displays all books.  
-
-Add a filter (client side search) to your app. See docs here: https://docs.angularjs.org/api/ng/filter/filter
+* Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
+* Use `$routeParams` to figure out which book to display.
+* Your view for a single book will have a different controller than your view that displays all books.
