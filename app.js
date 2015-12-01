@@ -1,4 +1,4 @@
-var app = angular.module('wineApp', []);
+var app = angular.module('wineApp', ['ui.router']);
 
 ////////////
 // ROUTES //
