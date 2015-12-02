@@ -22,6 +22,10 @@ app.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
   });
 });
 
+////////////////
+// CONTROLLER //
+////////////////
+
 app.controller('BookController',function($scope, Book) {
   $scope.book = Book.get({ id: 1843 }, function(data) {
     console.log(data);
