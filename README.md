@@ -5,7 +5,7 @@ Built on the top of the `$http` service, Angular’s `$resource` is a service th
 ## Installation
 1. Clone this repo and run 'bower install'
 1. The `$resource` service doesn’t come bundled with the main Angular script. Run `bower install angular-resource`. 
-1. Add it to your index.html
+1. Add it to your index.html below where you link to angular:
 ```html
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>
 ```
@@ -32,25 +32,35 @@ angular.module('app', [..., 'ngResource']);
 
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
   ```js
-  app.controller('ResourceController',function($scope, Book) {
-      $scope.book = Book.get({ id: 200 }, function(data) {
+  app.controller('BooksController',function($scope, Book) {
+      $scope.book = Book.get({ id: 1843 }, function(data) {
         console.log(data);
       }); // get() returns a single book
 
-      $scope.allBooks = Book.query(function(data) {
-        console.log(data);
-      }); //query() returns all the books
+  $scope.books = [];
+  $scope.newBook = {};
 
-      // add a new book
-      $scope.newBook = {"title":"JavaScript: The Good Parts","author":"Douglas Crockford","image":"","release_date":"May 11, 2008"};
+  $scope.books = Book.query(); // returns all the books
 
-      Book.save($scope.newBook, function(data) {
-        console.log(data);
-      });
+  $scope.createBook = function(){
+    Book.save($scope.newBook);
+    $scope.newBook = {}; // clear new book object
+    $scope.books = Book.query();
+  };
 
-      // delete a book
-      Book.delete({id:200});
-  });
+  $scope.updateBook = function(book) {
+    Book.get({ id: book.id }, function() {
+      Book.update({id: book.id}, book);
+      book.editForm = false;
+    }); 
+  };
+
+  $scope.deleteBook = function(book) {
+    Book.remove({id:book.id});
+    var bookIndex = $scope.books.indexOf(book);
+    $scope.books.splice(bookIndex, 1);
+  };
+});
   ```
 
   The `get()` function in the above snippet issues a GET request to `/books/:id`.
@@ -59,7 +69,7 @@ angular.module('app', [..., 'ngResource']);
 
   The `save()` function issues a POST request to `/api/entries` with the first argument as the post body. The second argument is a callback which is called when the data is saved.
 
-1. We have explored the create, read and delete parts of CRUD. The only thing left is update. To support an update operation we need to modify our custom factory `Book` as shown below.
+1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
   ```js
   angular.module('bookApp').factory('Book', function($resource) {m
     return $resource('http://daretodiscover.herokuapp.com/books/:id', { id: '@_id' }, {
@@ -67,14 +77,6 @@ angular.module('app', [..., 'ngResource']);
         method: 'PUT' // this method issues a PUT request
       }
     });
-  });
-  ```
-
-1. Now we can use the `update` function like this:
-  ```js
-  var book = Book.get({ id: 200 }, function() {
-      book.title = "Updated Title";
-      Book.update({id: 200}, book)
   });
   ```
 
