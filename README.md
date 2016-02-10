@@ -1,6 +1,6 @@
 # Angular Resource
 
-Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `http://daretodiscover.herokuapp.com/posts`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
+Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `http://jsonplaceholder.typicode.com/posts`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
 
 ## Installation
 1. Clone this repo and run 'bower install'
@@ -22,7 +22,7 @@ angular.module('app', [..., 'ngResource']);
 
   ```js
   angular.module('postApp').service('Post', function($resource) {
-    return $resource('http://daretodiscover.herokuapp.com/posts/:id');
+    return $resource('http://jsonplaceholder.typicode.com/posts/:id');
   });
   ```
 
@@ -72,7 +72,7 @@ angular.module('app', [..., 'ngResource']);
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Post` as shown below.
   ```js
   angular.module('postApp').factory('Post', function($resource) {m
-    return $resource('http://daretodiscover.herokuapp.com/posts/:id', { id: '@_id' }, {
+    return $resource('http://jsonplaceholder.typicode.com/posts/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
       }
@@ -82,15 +82,13 @@ angular.module('app', [..., 'ngResource']);
 
 ## Base Challenges
 
-We're going to build a CRUD app like the `$http` one we built yesterday but using `$resource`.
-
 1. Display all the posts with all their attributes including the photo.
 1. Create a form to add a new post. Make it work!
 1. Add an edit button next to each post. Make it work!
 1. Add a delete button next to each post. Make it work!
 
 ## Stretch Challenges
-Link the `name` of each post to a view that shows only the details for that post. **Hints:**
+Link the `title` of each post to a view that shows only the details for that post. **Hints:**
 
 * Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
 * Use `$routeParams` to figure out which post to display.
