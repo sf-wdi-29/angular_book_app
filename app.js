@@ -1,7 +1,8 @@
-angular.module('bookApp', ['ui.router', 'ngResource'])
-  .config( bookConfig );
+angular
+  .module('bookApp', ['ui.router', 'ngResource'])
+  .config( BookConfig );
 
-  function bookConfig ( $locationProvider, $stateProvider, $urlRouterProvider ) {
+  function BookConfig ( $locationProvider, $stateProvider, $urlRouterProvider ) {
       // return to book-index if bad route request
       $urlRouterProvider.otherwise("/");
       $stateProvider
