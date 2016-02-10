@@ -66,13 +66,14 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
 
 
     function updateBook(book) {
-      Book.query({ id: book.id }, function() {
+      Book.get({ id: book.id }, function() {
         Book.update({id: book.id}, book);
         book.editForm = false;
       });
     };
 
     function createBook(){
+      Book.save(this.newBook);
       this.newBook = {}; // clear new book object
       this.books = Book.query();
     };
