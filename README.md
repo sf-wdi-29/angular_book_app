@@ -41,11 +41,14 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
   });
   ```
 
-1. Add a script tag in your index.html linking to `services.js` after your `app.js` script tag.
+1. Add a script tag in your `index.html` linking to `services.js` after your `app.js` script tag.
 
 1. The result of this function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
 
-1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
+1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller! 
+    * Create `controllers.js`
+    * Add the below code.
+    * Don't forget to add another script tag to `index.html`, below `services.js`!
 
 ```js
   angular
@@ -57,8 +60,7 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
       console.log(data);
     }); // get() returns a single book
 
-    this.books = [];
-    this.newBook = {};
+    this.newBook = {}; // will hold user input for new book
     this.books = Book.query(); // returns all the books
     this.createBook = createBook;
     this.updateBook = updateBook;
@@ -66,16 +68,14 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
 
 
     function updateBook(book) {
-      Book.get({ id: book.id }, function() {
-        Book.update({id: book.id}, book);
-        book.editForm = false;
-      });
+      Book.update({id: book.id}, book);
+      book.displayEditForm = false;
     };
 
     function createBook(){
       Book.save(this.newBook);
-      this.newBook = {}; // clear new book object
-      this.books = Book.query();
+      // TODO: clear the form!
+      // TODO: display the new book in the list of books!
     };
 
     function deleteBook(book) {
@@ -102,6 +102,12 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
     return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
+      },
+      query: {
+        isArray: true,
+        transformResponse: function(data) {
+            return angular.fromJson(data).books; // this grabs the books from the response data: `{books: [...]}`
+        }
       }
     });
   });
