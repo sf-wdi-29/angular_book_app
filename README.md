@@ -100,7 +100,7 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
   });
   ```
 
-> Note: `{ id: "@_id"}` is a mapping between the placehoder in our route (e.g. `/books/:id)` and the name of the key that holds the id in the book object. And since databse is mongoDB our id is `_id`.
+> Note: `{ id: "@_id"}` is a mapping between the placeholder in our route (e.g. `/books/:id)` and the name of the key that holds the id in the book object. And since databse is mongoDB our id is `_id`.
 
 ## Base Challenges
 
