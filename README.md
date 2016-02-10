@@ -41,35 +41,37 @@ angular.module('app', [..., 'ngResource']);
 
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
   ```js
-  app.controller('PostsController',function($scope, Post) {
-      $scope.post = Post.get({ id: 1843 }, function(data) {
-        console.log(data);
-      }); // get() returns a single post
+  angular.module('postApp').controller('PostsController', PostsController);
 
-  $scope.posts = [];
-  $scope.newPost = {};
+function BooksController ($scope, Book) {
+    this.book = Book.get({ id: 1 }, function(data) {
+      console.log(data);
+    }); // get() returns a single book
 
-  $scope.posts = Post.query(); // returns all the posts
+    this.books = [];
+    this.newBook = {};
 
-  $scope.createPost = function(){
-    Post.save($scope.newPost);
-    $scope.newPost = {}; // clear new post object
-    $scope.posts = Post.query();
-  };
+    this.books = Book.query(); // returns all the books
 
-  $scope.updatePost = function(post) {
-    Post.get({ id: post.id }, function() {
-      Post.update({id: post.id}, post);
-      post.editForm = false;
-    });
-  };
+    this.createBook = function(){
+      this.newBook = {}; // clear new book object
+      this.books = Book.query();
+    };
 
-  $scope.deletePost = function(post) {
-    Post.remove({id:post.id});
-    var postIndex = $scope.posts.indexOf(post);
-    $scope.posts.splice(postIndex, 1);
-  };
-});
+    this.updateBook = function(book) {
+      Book.query({ id: book.id }, function() {
+        Book.update({id: book.id}, book);
+        book.editForm = false;
+      });
+    };
+
+    this.deleteBook = function(book) {
+      Book.remove({id:book.id});
+      var bookIndex = this.books.indexOf(book);
+      this.books.splice(bookIndex, 1);
+    };
+    console.log("Controller loaded.");
+};
   ```
 
   The `get()` function in the above snippet issues a GET request to `/posts/:id`.
@@ -78,9 +80,11 @@ angular.module('app', [..., 'ngResource']);
 
   The `save()` function issues a POST request to `/api/entries` with the first argument as the post body. The second argument is a callback which is called when the data is saved.
 
-1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Post` as shown below.
+1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
   ```js
-  angular.module('postApp').factory('Post', function($resource) {m
+  angular.module('bookApp').factory('Book', BookFactory); 
+  
+  function BookFactory($resource) {
     return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
@@ -91,13 +95,13 @@ angular.module('app', [..., 'ngResource']);
 
 ## Base Challenges
 
-1. Display all the posts with all their attributes including the photo.
-1. Create a form to add a new post. Make it work!
-1. Add an edit button next to each post. Make it work!
-1. Add a delete button next to each post. Make it work!
+1. Display all the books with all their attributes including the photo.
+1. Create a form to add a new book. Make it work!
+1. Add an edit button next to each book. Make it work!
+1. Add a delete button next to each book. Make it work!
 
 ## Stretch Challenges
-Link the `title` of each post to a view that shows only the details for that post. **Hints:**
+Link the `title` of each book to a view that shows only the details for that book. **Hints:**
 
 * Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
 * Use `$routeParams` to figure out which post to display.
