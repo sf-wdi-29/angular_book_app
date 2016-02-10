@@ -3,17 +3,11 @@ angular
   .controller('BooksController', BooksController);
 
 function BooksController (Book) {
-  this.book = Book.get({ id: 1 }, function(data) {
-    console.log(data);
-  }); // get() returns a single book
-
-  this.books = [];
   this.newBook = {};
   this.books = Book.query(); // returns all the books
   this.createBook = createBook;
   this.updateBook = updateBook;
   this.deleteBook = deleteBook;
-
 
   function updateBook(book) {
     Book.get({ id: book.id }, function() {
