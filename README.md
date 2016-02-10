@@ -72,7 +72,7 @@ angular.module('app', [..., 'ngResource']);
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
   ```js
   angular.module('bookApp').factory('Book', function($resource) {
-    return $resource('https://super-crud.herokuapp.com/books/:id', {@id: "_id"}, {
+    return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
       }
@@ -80,7 +80,7 @@ angular.module('app', [..., 'ngResource']);
   });
   ```
 
-> Note: `{@id: "_id"}` is a mapping between the route pattern (e.g. `/books/:id)` and the name of the key that holds the id in the book JSON. Since it's a mongo database our id is `_id`.
+> Note: `{ id: "@_id"}` is a mapping between the placehoder in our route (e.g. `/books/:id)` and the name of the key that holds the id in the book object. And since databse is mongoDB our id is `_id`.
 
 ## Base Challenges
 
