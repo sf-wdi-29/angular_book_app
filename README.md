@@ -43,7 +43,7 @@ angular.module('app', [..., 'ngResource']);
   ```js
   angular.module('bookApp').controller('BooksController', BooksController);
 
-function BooksController ($scope, Book) {
+  function BooksController ($scope, Book) {
     this.book = Book.get({ id: 1 }, function(data) {
       console.log(data);
     }); // get() returns a single book
