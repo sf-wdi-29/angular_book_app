@@ -48,7 +48,9 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
 
 ```js
-  angular.module('bookApp').controller('BooksController', BooksController);
+  angular
+    .module('bookApp')
+    .controller('BooksController', BooksController);
 
   function BooksController (Book) {
     this.book = Book.get({ id: 1 }, function(data) {
