@@ -10,7 +10,7 @@ angular.module('bookApp', ['ui.router', 'ngResource'])
           template: "Home!"
       })
       .state('books-index', {
-          url: '/books-index',
+          url: '/books',
           template: "Books!"
       });
       console.log("Config loaded.");
