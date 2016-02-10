@@ -4,11 +4,11 @@
 | :---- |
 | Identify the benefits of using $resource over $http |
 | Establish a connection with an external RESTful API |
-| Experiment further with templating |
-| Explore the endless possibilities of UI-router |
-| Create your own 'ORM' between an external API and your app|
+| Create an index view for CRUDing book resources|
 
-Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a book API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the books API follows the same pattern as the wine API that you used yesterday.
+Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a book API that can be found here: `https://super-crud.herokuapp.com/books`.
+
+Your goal is to allow a user to CRUD books!
 
 ## Installation
 1. Clone this repo and run `bower install`
@@ -112,24 +112,19 @@ Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in our `
 
 > Note: `{ id: "@_id"}` is a mapping between the placeholder in our route (e.g. `/books/:id)` and the name of the key that holds the id in the book object. And since the database is mongoDB our id is `_id`.
 
-## Base Challenges
+Now that we're all set, you're ready to tackle the challenges!
+
+## Book CRUD Challenges
 
 1. Display all the books with all their attributes including the photo.
 1. Create a form to add a new book. Make it work!
 1. Add an edit button next to each book. Make it work!
 1. Add a delete button next to each book. Make it work!
 
-## Stretch Challenges
+## Bonuses
 
 1. Can you modify (aka "transformResponse" ) the incoming list of books and change `_id` to `id` _before_ it gets to the controller?
 1. Can you create a seperate view for each book? I.E. Each title should link to a view that shows only the details for that book (`localhost:8000/#/books/10`). **Hints:**  
     - Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
     - Use `$routeParams` to figure out which book to display.
     - Your view for a single book will have a different controller than your view that displays all books.
-
-###Further Reading
-[Angular $resource](https://docs.angularjs.org/api/ngResource/service/$resource) - Makes RESTful CRUD API soooooo sweet!  
-
-[Angular UI-Router](https://angular-ui.github.io/ui-router/) - Don't sweat this too much, we'll go over it tomorrow :)  
-
-[Angular Factory vs Service vs Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/) - Know the differences!  
