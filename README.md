@@ -32,35 +32,35 @@ angular.module('app', [..., 'ngResource']);
 
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
   ```js
-  app.controller('BooksController',function($scope, Book) {
-      $scope.book = Book.get({ id: 1843 }, function(data) {
+  app.controller('BooksController',function(Book) {
+      this.book = Book.get({ id: 1843 }, function(data) {
         console.log(data);
       }); // get() returns a single book
 
-  $scope.books = [];
-  $scope.newBook = {};
+      this.books = [];
+      this.newBook = {};
 
-  $scope.books = Book.query(); // returns all the books
+      this.books = Book.query(); // returns all the books
 
-  $scope.createBook = function(){
-    Book.save($scope.newBook);
-    $scope.newBook = {}; // clear new book object
-    $scope.books = Book.query();
-  };
+      this.createBook = function(){
+        Book.save(this.newBook);
+        this.newBook = {}; // clear new book object
+        this.books = Book.query();
+      };
 
-  $scope.updateBook = function(book) {
-    Book.get({ id: book.id }, function() {
-      Book.update({ id: book.id }, book);
-      book.editForm = false;
+      this.updateBook = function(book) {
+        Book.get({ id: book.id }, function() {
+          Book.update({ id: book.id }, book);
+          book.editForm = false;
+        });
+      };
+
+      this.deleteBook = function(book) {
+        Book.remove({ id: book.id });
+        var bookIndex = this.books.indexOf(book);
+        this.books.splice(bookIndex, 1);
+      };
     });
-  };
-
-  $scope.deleteBook = function(book) {
-    Book.remove({ id: book.id });
-    var bookIndex = $scope.books.indexOf(book);
-    $scope.books.splice(bookIndex, 1);
-  };
-});
   ```
 
   The `get()` function in the above snippet issues a GET request to `/books/:id`.
