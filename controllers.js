@@ -10,8 +10,8 @@ function BooksController (Book) {
   this.deleteBook = deleteBook;
 
   function updateBook(book) {
-    Book.get({ id: book.id }, function() {
-      Book.update({id: book.id}, book);
+    Book.get({ id: book._id }, function() {
+      Book.update({id: book._id}, book);
       book.editForm = false;
     });
   };
@@ -23,7 +23,7 @@ function BooksController (Book) {
   };
 
   function deleteBook(book) {
-    Book.remove({id:book.id});
+    Book.remove({id:book._id});
     var bookIndex = this.books.indexOf(book);
     this.books.splice(bookIndex, 1);
   };
