@@ -1,6 +1,6 @@
 # Angular Resource
 
-Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `http://jsonplaceholder.typicode.com/posts`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
+Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
 
 ## Installation
 1. Clone this repo and run 'bower install'
@@ -22,7 +22,7 @@ angular.module('app', [..., 'ngResource']);
 
   ```js
   angular.module('postApp').service('Post', function($resource) {
-    return $resource('http://jsonplaceholder.typicode.com/posts/:id');
+    return $resource('https://super-crud.herokuapp.com/books/:id');
   });
   ```
 
@@ -72,7 +72,7 @@ angular.module('app', [..., 'ngResource']);
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Post` as shown below.
   ```js
   angular.module('postApp').factory('Post', function($resource) {m
-    return $resource('http://jsonplaceholder.typicode.com/posts/:id', { id: '@_id' }, {
+    return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
         method: 'PUT' // this method issues a PUT request
       }
