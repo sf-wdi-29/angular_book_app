@@ -50,26 +50,30 @@ angular.module('app', [..., 'ngResource']);
 
     this.books = [];
     this.newBook = {};
-
     this.books = Book.query(); // returns all the books
+    this.createBook = createBook;
+    this.updateBook = updateBook;
+    this.deleteBook = deleteBook;
 
-    this.createBook = function(){
-      this.newBook = {}; // clear new book object
-      this.books = Book.query();
-    };
 
-    this.updateBook = function(book) {
+    function updateBook(book) {
       Book.query({ id: book.id }, function() {
         Book.update({id: book.id}, book);
         book.editForm = false;
       });
     };
 
-    this.deleteBook = function(book) {
+    function createBook(){
+      this.newBook = {}; // clear new book object
+      this.books = Book.query();
+    };
+
+    function deleteBook(book) {
       Book.remove({id:book.id});
       var bookIndex = this.books.indexOf(book);
       this.books.splice(bookIndex, 1);
     };
+
     console.log("Controller loaded.");
 };
   ```
@@ -82,8 +86,8 @@ angular.module('app', [..., 'ngResource']);
 
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
   ```js
-  angular.module('bookApp').factory('Book', BookFactory); 
-  
+  angular.module('bookApp').factory('Book', BookFactory);
+
   function BookFactory($resource) {
     return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
@@ -114,4 +118,3 @@ Link the `title` of each book to a view that shows only the details for that boo
 [Angular UI-Router](https://angular-ui.github.io/ui-router/) - Don't sweat this too much, we'll go over it tomorrow :)  
 
 [Angular Factory vs Service vs Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/) - Know the differences!  
-
