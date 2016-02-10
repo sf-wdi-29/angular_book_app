@@ -1,22 +1,17 @@
-var app = angular.module('bookApp', ['ui.router']);
+angular.module('postApp', ['ui.router', 'ngResource'])
+  .config( postConfig );
 
-////////////
-// ROUTES //
-////////////
-
-app.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
-    // return to book-index if bad route request
-    $urlRouterProvider.otherwise("/");
-    $stateProvider
-    .state('home', {
-        url: '/',
-        template: "Home!"
-    })
-    .state('books-index', {
-        url: '/books-index',
-        template: "Books!"
-    });
-
-});
-
-
+  function postConfig ( $locationProvider, $stateProvider, $urlRouterProvider ) {
+      // return to post-index if bad route request
+      $urlRouterProvider.otherwise("/");
+      $stateProvider
+      .state('home', {
+          url: '/',
+          template: "Home!"
+      })
+      .state('posts-index', {
+          url: '/posts-index',
+          template: "Postss!"
+      });
+      console.log("Config loaded.");
+  };
