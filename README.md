@@ -106,3 +106,9 @@ Link the `title` of each book to a view that shows only the details for that boo
 * Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
 * Use `$routeParams` to figure out which book to display.
 * Your view for a single book will have a different controller than your view that displays all books.
+
+
+###Further Reading
+[Angular $resource](https://docs.angularjs.org/api/ngResource/service/$resource) - Makes RESTful CRUD API soooooo sweet!
+[Angular UI-Router](https://angular-ui.github.io/ui-router/) - Don't sweat this too much, we'll go over it tomorrow :)
+[Angular Factory vs Service vs Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/) - Know the differences!
