@@ -9,7 +9,7 @@
 | Create your own 'ORM' between an external API and your app|
 
 
-Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
+Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a book API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the books API follows the same pattern as the wine API that you used yesterday.
 
 ## Installation
 1. Clone this repo and run 'bower install'
@@ -30,7 +30,7 @@ angular.module('app', [..., 'ngResource']);
 1. Create a `services.js` file and put your new `$resource` service in it.
 
   ```js
-  angular.module('postApp').service('Post', function($resource) {
+  angular.module('bookApp').service('Book', function($resource) {
     return $resource('https://super-crud.herokuapp.com/books/:id');
   });
   ```
@@ -41,7 +41,7 @@ angular.module('app', [..., 'ngResource']);
 
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
   ```js
-  angular.module('postApp').controller('PostsController', PostsController);
+  angular.module('bookApp').controller('BooksController', BooksController);
 
 function BooksController ($scope, Book) {
     this.book = Book.get({ id: 1 }, function(data) {
@@ -74,7 +74,7 @@ function BooksController ($scope, Book) {
 };
   ```
 
-  The `get()` function in the above snippet issues a GET request to `/posts/:id`.
+  The `get()` function in the above snippet issues a GET request to `/books/:id`.
 
   The function `query()` issues a GET request to /api/entries (notice there is no `:id`).
 
@@ -104,5 +104,5 @@ function BooksController ($scope, Book) {
 Link the `title` of each book to a view that shows only the details for that book. **Hints:**
 
 * Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
-* Use `$routeParams` to figure out which post to display.
-* Your view for a single post will have a different controller than your view that displays all posts.
+* Use `$routeParams` to figure out which book to display.
+* Your view for a single book will have a different controller than your view that displays all books.
