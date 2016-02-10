@@ -10,10 +10,8 @@ function BooksController (Book) {
   this.deleteBook = deleteBook;
 
   function updateBook(book) {
-    Book.get({ id: book._id }, function() {
-      Book.update({id: book._id}, book);
-      book.editForm = false;
-    });
+    Book.update({id: book._id}, book);
+    book.editForm = false;
   };
 
   function createBook(){
