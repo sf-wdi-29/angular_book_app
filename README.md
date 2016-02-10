@@ -1,4 +1,13 @@
-# Angular Resource
+# <img src="https://cloud.githubusercontent.com/assets/7833470/10899314/63829980-8188-11e5-8cdd-4ded5bcb6e36.png" height="60"> Angular Resources
+
+| **Learning Objectives** |
+| :---- |
+| Identify the benefits of using $resource over $http |
+| Establish a connection with an external RESTful API |
+| Experiment further with templating |
+| Explore the endless possibilities of UI-router |
+| Create your own 'ORM' between an external API and your app|
+
 
 Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a post API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the posts API follows the same pattern as the wine API that you used yesterday.
 
