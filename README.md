@@ -8,13 +8,12 @@
 | Explore the endless possibilities of UI-router |
 | Create your own 'ORM' between an external API and your app|
 
-
 Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a book API that can be found here: `https://super-crud.herokuapp.com/books`. The request syntax of the books API follows the same pattern as the wine API that you used yesterday.
 
 ## Installation
-1. Clone this repo and run 'bower install'
-1. The `$resource` service doesn’t come bundled with the main Angular script. Run `bower install angular-resource`.
-1. Add it to your index.html below where you link to angular:
+1. Clone this repo and run `bower install`
+1. The `$resource` service doesn’t come bundled with the main Angular script. Run `bower install --save angular-resource`.
+1. Add a link to the angular-resource module in your `index.html` (BELOW angular.js!):
 ```html
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>
 ```
@@ -22,7 +21,14 @@ Built on the top of the `$http` service, Angular’s `$resource` is a service th
 ```js
 angular.module('app', [..., 'ngResource']);
 ```
-1. In the application directory run python -m SimpleHTTPServer 8000.
+1. In the application directory run a local server:
+``` bash
+budo
+#or
+python -m SimpleHTTPServer 8000
+# or
+ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.pwd).start'
+```
 
 ## Interacting with the API
 1. To use `$resource` inside your controller/service you need to declare a dependency on `$resource`. The next step is calling the `$resource()` function with your REST endpoint, as shown in the following example. This function call returns a `$resource` class representation which can be used to interact with the REST backend.
@@ -40,50 +46,57 @@ angular.module('app', [..., 'ngResource']);
 1. The result of this function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
 
 1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller:
-  ```js
-  angular.module('bookApp').controller('BooksController', BooksController);
 
-  function BooksController ($scope, Book) {
+```js
+  angular
+    .module('bookApp')
+    .controller('BooksController', BooksController);
+
+  function BooksController (Book) {
     this.book = Book.get({ id: 1 }, function(data) {
       console.log(data);
     }); // get() returns a single book
 
     this.books = [];
     this.newBook = {};
-
     this.books = Book.query(); // returns all the books
+    this.createBook = createBook;
+    this.updateBook = updateBook;
+    this.deleteBook = deleteBook;
 
-    this.createBook = function(){
-      this.newBook = {}; // clear new book object
-      this.books = Book.query();
-    };
 
-    this.updateBook = function(book) {
+    function updateBook(book) {
       Book.query({ id: book.id }, function() {
         Book.update({id: book.id}, book);
         book.editForm = false;
       });
     };
 
-    this.deleteBook = function(book) {
+    function createBook(){
+      this.newBook = {}; // clear new book object
+      this.books = Book.query();
+    };
+
+    function deleteBook(book) {
       Book.remove({id:book.id});
       var bookIndex = this.books.indexOf(book);
       this.books.splice(bookIndex, 1);
     };
+
     console.log("Controller loaded.");
-};
-  ```
+    };
+```
 
   The `get()` function in the above snippet issues a GET request to `/books/:id`.
 
-  The function `query()` issues a GET request to /api/entries (notice there is no `:id`).
+  The function `query()` issues a GET request to `/books` (notice there is no `:id`).
 
-  The `save()` function issues a POST request to `/api/entries` with the first argument as the post body. The second argument is a callback which is called when the data is saved.
+  The `save()` function issues a POST request to `/books` with the first argument as the book data. The second argument is a callback which is called when the data is saved.
 
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
   ```js
-  angular.module('bookApp').factory('Book', BookFactory); 
-  
+  angular.module('bookApp').factory('Book', BookFactory);
+
   function BookFactory($resource) {
     return $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
       update: {
@@ -92,6 +105,8 @@ angular.module('app', [..., 'ngResource']);
     });
   });
   ```
+
+> Note: `{ id: "@_id"}` is a mapping between the placeholder in our route (e.g. `/books/:id)` and the name of the key that holds the id in the book object. And since the database is mongoDB our id is `_id`.
 
 ## Base Challenges
 
@@ -107,11 +122,9 @@ Link the `title` of each book to a view that shows only the details for that boo
 * Use `$routeParams` to figure out which book to display.
 * Your view for a single book will have a different controller than your view that displays all books.
 
-
 ###Further Reading
 [Angular $resource](https://docs.angularjs.org/api/ngResource/service/$resource) - Makes RESTful CRUD API soooooo sweet!  
 
 [Angular UI-Router](https://angular-ui.github.io/ui-router/) - Don't sweat this too much, we'll go over it tomorrow :)  
 
 [Angular Factory vs Service vs Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/) - Know the differences!  
-
