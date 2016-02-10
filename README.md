@@ -33,7 +33,9 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
 ## Interacting with the API
 1. To use `$resource` inside your controller/service you need to declare a dependency on `$resource`. The next step is calling the `$resource()` function with your REST endpoint, as shown in the following example. This function call returns a `$resource` class representation which can be used to interact with the REST backend.
 
-1. Create a `services.js` file and put your new `$resource` service in it.
+1. Take a look at `services.js` which uses `$resource` (ngResource) to create a Book service:
+
+`services.js`
 
   ```js
   angular.module('bookApp').service('Book', function($resource) {
@@ -41,14 +43,11 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
   });
   ```
 
-1. Add a script tag in your `index.html` linking to `services.js` after your `app.js` script tag.
+The result of this function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
 
-1. The result of this function call is a resource class object which has the following five methods by default: `get()`, `query()`, `save()`, `remove()`, `delete()` (delete is an alias for remove)
+Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in our `BooksController` controller!
 
-1. Now we can use the `get()`, `query()`, `save()`, and `delete()` methods in a controller! 
-    * Create `controllers.js`
-    * Add the below code.
-    * Don't forget to add another script tag to `index.html`, below `services.js`!
+`controllers.js`
 
 ```js
   angular
@@ -56,19 +55,14 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
     .controller('BooksController', BooksController);
 
   function BooksController (Book) {
-    this.book = Book.get({ id: 1 }, function(data) {
-      console.log(data);
-    }); // get() returns a single book
-
     this.newBook = {}; // will hold user input for new book
     this.books = Book.query(); // returns all the books
     this.createBook = createBook;
     this.updateBook = updateBook;
     this.deleteBook = deleteBook;
 
-
     function updateBook(book) {
-      Book.update({id: book.id}, book);
+      Book.update({id: book._id}, book);
       book.displayEditForm = false;
     };
 
@@ -79,7 +73,7 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
     };
 
     function deleteBook(book) {
-      Book.remove({id:book.id});
+      Book.remove({id:book._id});
       var bookIndex = this.books.indexOf(book);
       this.books.splice(bookIndex, 1);
     };
@@ -95,6 +89,9 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
   The `save()` function issues a POST request to `/books` with the first argument as the book data. The second argument is a callback which is called when the data is saved.
 
 1. We are good to go for the create, read and delete parts of CRUD. However, since update can use either PUT or PATCH, we need to modify our custom factory `Book` as shown below.
+
+`services.js`
+
   ```js
   angular.module('bookApp').factory('Book', BookFactory);
 
@@ -123,11 +120,12 @@ ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.p
 1. Add a delete button next to each book. Make it work!
 
 ## Stretch Challenges
-Link the `title` of each book to a view that shows only the details for that book. **Hints:**
 
-* Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
-* Use `$routeParams` to figure out which book to display.
-* Your view for a single book will have a different controller than your view that displays all books.
+1. Can you modify (aka "transformResponse" ) the incoming list of books and change `_id` to `id` _before_ it gets to the controller?
+1. Can you create a seperate view for each book? I.E. Each title should link to a view that shows only the details for that book (`localhost:8000/#/books/10`). **Hints:**  
+    - Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
+    - Use `$routeParams` to figure out which book to display.
+    - Your view for a single book will have a different controller than your view that displays all books.
 
 ###Further Reading
 [Angular $resource](https://docs.angularjs.org/api/ngResource/service/$resource) - Makes RESTful CRUD API soooooo sweet!  
