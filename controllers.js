@@ -3,6 +3,7 @@ angular
   .controller('BooksController', BooksController);
 
 function BooksController (Book) {
+  var vm = this;
   this.newBook = {};
   this.books = Book.query(); // returns all the books
   this.createBook = createBook;
@@ -15,9 +16,16 @@ function BooksController (Book) {
   };
 
   function createBook(){
-    Book.save(this.newBook);
-    this.newBook = {}; // clear new book object
-    this.books = Book.query();
+    Book.save(this.newBook, onSuccess, onError);
+
+    function onSuccess(new_book_with_id){
+      vm.newBook = {}; // clear new book object
+      vm.books.push(new_book_with_id);
+    }
+
+    function onError(){
+      console.log("Something went wrong...")
+    }
   };
 
   function deleteBook(book) {
