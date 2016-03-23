@@ -25,8 +25,6 @@ angular.module('app', [..., 'ngResource']);
 ```
 1. In the application directory run a local server:
 ``` bash
-budo
-#or
 python -m SimpleHTTPServer 8000
 # or
 ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 3000, :DocumentRoot => Dir.pwd).start'
