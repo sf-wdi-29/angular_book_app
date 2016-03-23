@@ -128,3 +128,9 @@ Now that we're all set, you're ready to tackle the challenges!
     - Use `ui-router` and `ng-view` to set up multiple views in your Angular app.
     - Use `$routeParams` to figure out which book to display.
     - Your view for a single book will have a different controller than your view that displays all books.
+
+
+##Links
+[Angular $resource docs](https://docs.angularjs.org/api/ngResource/service/$resource)
+
+[CRUD using $resource](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
