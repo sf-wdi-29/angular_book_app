@@ -1,12 +1,14 @@
-# <img src="https://cloud.githubusercontent.com/assets/7833470/10899314/63829980-8188-11e5-8cdd-4ded5bcb6e36.png" height="60"> Angular Book App
+<!--
+Market: SF
+-->
+
+![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png)
+
+# Angular Book App
 
 <img src="https://media.giphy.com/media/oFPiPgqwof4Pe/giphy.gif" width=400>
 
-| **Learning Objectives** |
-| :---- |
-| Identify the benefits of using $resource over $http |
-| Establish a connection with an external RESTful API |
-| Create an index view for CRUDing book resources|
+> ***Note:*** *This can be a pair programming activity or done independently.*
 
 Built on the top of the `$http` service, Angular’s `$resource` is a service that lets you interact with RESTful backends easily. `$resource` is very similar to models in Rails. In this tutorial, we're going to make use of a book API that can be found here: `https://super-crud.herokuapp.com/books`.
 
@@ -130,7 +132,19 @@ Now that we're all set, you're ready to tackle the challenges!
     - Your view for a single book will have a different controller than your view that displays all books.
 
 
-##Links
-[Angular $resource docs](https://docs.angularjs.org/api/ngResource/service/$resource)
+### Additional Resources
 
-[CRUD using $resource](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
+- [Angular $resource docs](https://docs.angularjs.org/api/ngResource/service/$resource)
+
+- [CRUD using $resource](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
+
+### Self Evaluation
+
+During the previous exercise, rate your progress on a scale of 1-5 (5 being the highest) for the following criteria:
+
+- **Persistence:** Do you handle frustration well? Do you independently pursue understanding?
+- **Organization:** Do you thoughtfully implement best coding patterns and practices?
+- **Collaboration:** Do you make an effort solve problems and share your ideas with others?
+- **Communication:** Do you clearly convey your thoughts to others in illustrative and clear ways?
+- **Self-compassion:** Do you make productive use of turning failures into learning opportunities?
+- **Resourcefulness:** Do make an effort to compare and contrast new ideas with ones you already know?
